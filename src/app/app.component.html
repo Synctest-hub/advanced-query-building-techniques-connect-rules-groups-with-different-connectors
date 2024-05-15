@@ -1,0 +1,48 @@
+<style>
+  .control-section {
+    margin-top: 100px;
+  }
+</style>
+
+<ejs-querybuilder id="querybuilder" (actionBegin)="actionBegin($event)" [rule]="importRules" [columns]="filter" #querybuilder width="100%" (dataBound)="dataBound($event)" (ruleChange)="ruleChanged()" (created)="ruleChanged()">
+  <ng-template #ruleTemplate let-data>
+    <div>
+      <div *ngIf="data.rule.custom.isRule===true" class="e-rules">
+        <div class="e-rule-header">
+          <ejs-radiobutton id="{{data.ruleID}}_rulerb1" class="e-and-condition" name="{{data.ruleID}}_andor" label="AND" value="and" [checked]="data.group.condition == 'and'" (change)="ruleConditionChange($event)"></ejs-radiobutton>
+          <ejs-radiobutton id="{{data.ruleID}}_rulerb2" class="e-or-condition" name="{{data.ruleID}}_andor" label="OR" value="or" [checked]="data.group.condition == 'or'" (change)="ruleConditionChange($event)"></ejs-radiobutton>
+        </div>
+      </div>
+      <div class="e-rule e-rule-template">
+        <div class="e-rule-filter">
+          <ejs-dropdownlist [dataSource]="data.columns" id="{{data.ruleID}}_filter" (change)="fieldChange($event)" [fields]="fields" [value]="data.rule.field"></ejs-dropdownlist> 
+        </div>
+        <div class="e-rule-operator e-operator">
+          <ejs-dropdownlist id="{{data.ruleID}}_operator" (change)="operatorChange($event)" [fields]="data.operatorFields" [dataSource]="data.operators" [value]="data.rule.operator"></ejs-dropdownlist> 
+        </div>
+        <div *ngIf="data.rule.type ==='number'" class="e-rule-value e-value e-custom-value">
+          <ejs-numerictextbox [value]="data.rule.value" (change)="valueChange($event)"></ejs-numerictextbox>
+        </div>
+        <div *ngIf="data.rule.type ==='string'" class="e-rule-value e-value e-custom-value">
+          <ejs-textbox [value]="data.rule.value" id="{{data.ruleID}}_valuekey0" (change)="valueChange($event)"></ejs-textbox>
+        </div>
+        <button *ngIf="data.rule.custom.isGroup!==true" class="e-removerule e-rule-delete e-css e-btn e-small e-round" (click)="removeRule($event)">
+          <span class="e-btn-icon e-icons e-delete-icon"></span>
+        </button>
+      </div>
+      <div class="e-group-btn"> 
+        <input *ngIf="data.rule.custom.isGroup===true" id="{{data.ruleID}}_addGroup" type="button" value="Add Group" class="e-flat e-btn e-small" (click)="addGroup()" /> 
+        <input *ngIf="data.rule.custom.isGroup===true" id="{{data.ruleID}}_addRule" type="button" value="Add Rule" class="e-flat e-btn e-small" (click)="addRule($event)" />
+        <input *ngIf="data.rule.custom.isGroup===true" id="{{data.ruleID}}_removeGroup" type="button" value="Remove Group" class="e-flat e-btn e-small" (click)="removeGroup($event)" />
+      </div>
+    </div>
+  </ng-template>
+  <ng-template #headerTemplate let-data> 
+    <div class="e-groupheader"> 
+      <ejs-radiobutton id="{{data.ruleID}}_radio1" name="{{data.ruleID}}_andor" [checked]="data.condition == 'and'" label="AND" value="and"  (change)="grpConditionChange($event)"></ejs-radiobutton> 
+      <ejs-radiobutton id="{{data.ruleID}}_radio2" name="{{data.ruleID}}_andor" [checked]="data.condition == 'or'" label="OR" value="or" (change)="grpConditionChange($event)"></ejs-radiobutton> 
+    </div>
+  </ng-template>
+</ejs-querybuilder>
+
+<textarea id="result" style="width: 100%; height: 100px; margin-top: 20px;" [(ngModel)]="content" readonly></textarea>
