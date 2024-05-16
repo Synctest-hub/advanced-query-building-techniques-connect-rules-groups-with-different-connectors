@@ -21,7 +21,7 @@
           <ejs-dropdownlist id="{{data.ruleID}}_operator" (change)="operatorChange($event)" [fields]="data.operatorFields" [dataSource]="data.operators" [value]="data.rule.operator"></ejs-dropdownlist> 
         </div>
         <div *ngIf="data.rule.type ==='number'" class="e-rule-value e-value e-custom-value">
-          <ejs-numerictextbox [value]="data.rule.value" (change)="valueChange($event)"></ejs-numerictextbox>
+          <ejs-numerictextbox [value]="data.rule.value" format="####" (change)="valueChange($event)"></ejs-numerictextbox>
         </div>
         <div *ngIf="data.rule.type ==='string'" class="e-rule-value e-value e-custom-value">
           <ejs-textbox [value]="data.rule.value" id="{{data.ruleID}}_valuekey0" (change)="valueChange($event)"></ejs-textbox>
